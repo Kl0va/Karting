@@ -26,7 +26,7 @@ namespace Karting
             DateTime NowDate = DateTime.Now;
             DateTime StartRace = DateTime.Parse("2022-06-20 00:00");
             TimeSpan Span = StartRace.Subtract(NowDate);
-            Timer.Text = $@"До начала события осталось {StartRace.Year - NowDate.Year} лет, {StartRace.Month - NowDate.Month} месяцев, {StartRace.DayOfWeek - NowDate.DayOfWeek} дней, {Span.ToString("hh")} часов, {Span.ToString("mm")} минут, {Span.ToString("ss")} секунд";
+            Timer.Text = $@"До начала события осталось {StartRace.Year - NowDate.Year} лет, {StartRace.Month - NowDate.Month} месяцев, {StartRace.Day - NowDate.Day} дней, {Span.ToString("hh")} часов, {Span.ToString("mm")} минут, {Span.ToString("ss")} секунд";
         }
 
         private void Back_Click(object sender, EventArgs e)

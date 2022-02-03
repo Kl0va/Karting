@@ -30,7 +30,7 @@ namespace Karting
             DateTime NowDate = DateTime.Now;
             DateTime StartRace = DateTime.Parse("2022-06-20 00:00");
             TimeSpan Span = StartRace.Subtract(NowDate);
-            Timer.Text = $@"До начала события осталось {StartRace.Year - NowDate.Year} лет, {StartRace.Month - NowDate.Month} месяцев, {StartRace.DayOfWeek - NowDate.DayOfWeek} дней, {Span.ToString("hh")} часов, {Span.ToString("mm")} минут, {Span.ToString("ss")} секунд";
+            Timer.Text = $@"До начала события осталось {StartRace.Year - NowDate.Year} лет, {StartRace.Month - NowDate.Month} месяцев, {StartRace.Day - NowDate.Day} дней, {Span.ToString("hh")} часов, {Span.ToString("mm")} минут, {Span.ToString("ss")} секунд";
         }
 
         private void Auth_Click(object sender, EventArgs e)
@@ -58,6 +58,10 @@ namespace Karting
 
                 if (Mass[0] == Email.Text && MassPassword[0] == Password.Text)
                 {
+                    SqlDataAdapter sql = new SqlDataAdapter($"SELECT Last_Name FROM [USER] WHERE Email = '{Email.Text}'", Connection);
+                    DataSet dataSet = new DataSet();
+                    sql.Fill(dataSet);
+
                     SqlDataAdapter AdapterRole = new SqlDataAdapter($"SELECT [User].ID_Role FROM [User] WHERE Email = '{Email.Text}'", Connection);
                     DataSet DataSetRole = new DataSet();
                     AdapterRole.Fill(DataSetRole);
@@ -69,7 +73,12 @@ namespace Karting
 
                     if (MassRole[0] == "R")
                     {
-                        RacerMenu runnerMenu = new RacerMenu();
+                        List<string> mass = new List<string>();
+                        foreach(DataRow row in dataSet.Tables[0].Rows)
+                        {
+                            mass.Add(row.Field<string>("Last_Name"));
+                        }
+                        RacerMenu runnerMenu = new RacerMenu(mass[0]);
                         runnerMenu.Show();
                     }
                     if (MassRole[0] == "C")

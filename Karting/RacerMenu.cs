@@ -12,10 +12,12 @@ namespace Karting
 {
     public partial class RacerMenu : Form
     {
-        public RacerMenu()
+        public string Mail;
+        public RacerMenu(string Email)
         {
             InitializeComponent();
             timer1.Start();
+            Mail = Email;
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -28,7 +30,7 @@ namespace Karting
             DateTime NowDate = DateTime.Now;
             DateTime StartRace = DateTime.Parse("2022-06-20 00:00");
             TimeSpan Span = StartRace.Subtract(NowDate);
-            Timer.Text = $@"До начала события осталось {StartRace.Year - NowDate.Year} лет, {StartRace.Month - NowDate.Month} месяцев, {StartRace.DayOfWeek - NowDate.DayOfWeek} дней, {Span.ToString("hh")} часов, {Span.ToString("mm")} минут, {Span.ToString("ss")} секунд";
+            Timer.Text = $@"До начала события осталось {StartRace.Year - NowDate.Year} лет, {StartRace.Month - NowDate.Month} месяцев, {StartRace.Day - NowDate.Day} дней, {Span.ToString("hh")} часов, {Span.ToString("mm")} минут, {Span.ToString("ss")} секунд";
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -39,6 +41,18 @@ namespace Karting
         private void button3_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Контакты \nТелефон: +7 999 999 99 99\nEmail: yugkyug@kartskills.org","Контакты");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            RaceRegistration raceRegistration = new RaceRegistration(Mail);
+            raceRegistration.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            EditProfile editProfile = new EditProfile(Mail);
+            editProfile.Show();
         }
     }
 }
