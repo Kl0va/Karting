@@ -47,7 +47,7 @@ namespace Karting
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.SponsorName = new System.Windows.Forms.TextBox();
-            this.Racer = new System.Windows.Forms.ComboBox();
+            this.racerCombo = new System.Windows.Forms.ComboBox();
             this.CardName = new System.Windows.Forms.TextBox();
             this.CardNum = new System.Windows.Forms.TextBox();
             this.Month = new System.Windows.Forms.TextBox();
@@ -234,13 +234,14 @@ namespace Karting
             this.SponsorName.Size = new System.Drawing.Size(236, 20);
             this.SponsorName.TabIndex = 14;
             // 
-            // Racer
+            // racerCombo
             // 
-            this.Racer.FormattingEnabled = true;
-            this.Racer.Location = new System.Drawing.Point(140, 198);
-            this.Racer.Name = "Racer";
-            this.Racer.Size = new System.Drawing.Size(236, 21);
-            this.Racer.TabIndex = 15;
+            this.racerCombo.FormattingEnabled = true;
+            this.racerCombo.Location = new System.Drawing.Point(140, 198);
+            this.racerCombo.Name = "racerCombo";
+            this.racerCombo.Size = new System.Drawing.Size(236, 21);
+            this.racerCombo.TabIndex = 15;
+            this.racerCombo.SelectedIndexChanged += new System.EventHandler(this.racerCombo_SelectedIndexChanged);
             // 
             // CardName
             // 
@@ -367,7 +368,7 @@ namespace Karting
             // 
             this.FondName.AutoSize = true;
             this.FondName.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FondName.Location = new System.Drawing.Point(661, 152);
+            this.FondName.Location = new System.Drawing.Point(551, 154);
             this.FondName.Name = "FondName";
             this.FondName.Size = new System.Drawing.Size(44, 18);
             this.FondName.TabIndex = 27;
@@ -391,7 +392,7 @@ namespace Karting
             this.Controls.Add(this.Month);
             this.Controls.Add(this.CardNum);
             this.Controls.Add(this.CardName);
-            this.Controls.Add(this.Racer);
+            this.Controls.Add(this.racerCombo);
             this.Controls.Add(this.SponsorName);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -406,6 +407,7 @@ namespace Karting
             this.Controls.Add(this.panel2);
             this.Name = "Sponsorship";
             this.Text = "Спонсирование";
+            this.Load += new System.EventHandler(this.Sponsorship_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -434,7 +436,7 @@ namespace Karting
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox SponsorName;
-        private System.Windows.Forms.ComboBox Racer;
+        private System.Windows.Forms.ComboBox racerCombo;
         private System.Windows.Forms.TextBox CardName;
         private System.Windows.Forms.TextBox CardNum;
         private System.Windows.Forms.TextBox Month;

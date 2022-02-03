@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Karting
 {
     public partial class Sponsorship : Form
     {
+        public static string ConnStr = @"Data Source=DESKTOP-4LPER1V\KLOVA;Initial Catalog=Karting;Persist Security Info=True;User ID=sa;Password=V783278k";
         public Sponsorship()
         {
             InitializeComponent();
@@ -133,10 +135,34 @@ namespace Karting
         {
             if(SponsorName.Text != "" && CardName.Text != "" && CardNum.Text.Length == 16 && Month.Text.Length == 2 && Year.Text.Length == 4 && int.Parse(Year.Text) >= DateTime.Now.Year && int.Parse(Month.Text) <= 12)
             {
-                SponsorshipConfirmation sponsorship = new SponsorshipConfirmation(Racer.Text,FondName.Text,MoneyLabel.Text);
+                SponsorshipConfirmation sponsorship = new SponsorshipConfirmation(racerCombo.Text,FondName.Text,MoneyLabel.Text);
                 sponsorship.Show();
                 Close();
             }
+        }
+
+        private void Sponsorship_Load(object sender, EventArgs e)
+        {
+            SqlConnection Connection = new SqlConnection(ConnStr);
+            Connection.Open();
+            SqlDataAdapter adapter = new SqlDataAdapter("SELECT CONCAT (First_Name,' ',Last_Name,' ',Result.BidNumber,' - ','(',Country.Country_Name,')') as FINUM , Registration.ID_Racer FROM[Result] INNER JOIN[Registration] ON[Registration].ID_Registration = [Result].ID_Registration INNER JOIN Racer ON Racer.ID_Racer = [Registration].[ID_Racer] INNER JOIN Country ON Country.ID_Country = Racer.ID_Country", Connection);
+            DataSet racer = new DataSet();
+            adapter.Fill(racer);
+            racerCombo.DataSource = racer.Tables[0];
+            racerCombo.DisplayMember = "FINUM";
+            racerCombo.ValueMember = "Registration.ID_Racer";
+        }
+
+        private void racerCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SqlConnection connection = new SqlConnection(ConnStr);
+            connection.Open();
+
+            SqlDataAdapter adapter1 = new SqlDataAdapter("SELECT Racer.ID_Racer, Charity.Charity_Name FROM Registration INNER JOIN Racer ON Racer.[ID_Racer] = [Registration].[ID_Racer] INNER JOIN [Charity] ON [Charity].[ID_Сharity]= [Registration].[ID_Charity]", connection);
+            DataSet dataset1 = new DataSet();
+            adapter1.Fill(dataset1);
+
+            FondName.Text = dataset1.Tables[0].Rows[racerCombo.SelectedIndex][1].ToString();
         }
     }
 }
